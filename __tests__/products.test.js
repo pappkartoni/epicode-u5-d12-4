@@ -46,7 +46,7 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
-  //await ProductsModel.deleteMany()
+  await ProductsModel.deleteMany()
   await mongoose.connection.close()
 })
 
