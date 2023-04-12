@@ -51,10 +51,12 @@ productsRouter.put("/:id", async (req, res, next) => {
 
 productsRouter.delete("/:id", async (req, res, next) => {
   try {
-    const deletedResource = await ProductsRouter.findByIdAndUpdate(req.params.id)
+    const deletedResource = await ProductsRouter.findByIdAndDelete(req.params.id)
     if (deletedResource) {
+      console.log("we found something")
       res.status(204).send()
     } else {
+      console.log("we found nothing");
       next(createError(404, `Resource with id ${req.params.id} not found!`))
     }
   } catch (error) {
