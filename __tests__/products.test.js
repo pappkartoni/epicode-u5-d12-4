@@ -86,9 +86,9 @@ describe("Test Products API", () => {
   test("PUT /products/:id with a valid id but an invalid body returns 400(?)", async () => {
     const response = await client.put(`/products/${validId}`).send(notValidUpdate).expect(400)
   })
-/*   it("Should test that DELETE /products/:id with a valid id returns 204", async () => {
+  it("Should test that DELETE /products/:id with a valid id returns 204", async () => {
     const response = await client.delete(`/products/${validId}`).expect(204)
-  }) */
+  })
   it("Should test that DELETE /products/:id with an invalid id returns 404", async () => {
     const response = await client.delete(`/products/${invalidId}`).expect(404)
   })
