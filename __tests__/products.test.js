@@ -4,13 +4,27 @@
 // env vars to command line scripts on all operative systems!
 import supertest from "supertest"
 import dotenv from "dotenv"
+import mongoose from "mongoose"
 import server from "../src/server.js"
+import ProductsModel from "../src/api/products/model.js"
 
 dotenv.config() // This command forces .env vars to be loaded into process.env. This is the way to go when you can't use -r dotenv/config
 
 // supertest is capable of running server.listen from our Express app if we pass the server to it
 // It will give us back an object (client) that can be used to run http requests on that server
 const client = supertest(server)
+
+const validProduct = {
+  name: "iPhone",
+  description: "Good phone",
+  price: 10000,
+}
+
+beforeAll(async () => {
+  await mongoose.connect(process.env.MONGO_TEST_URL)
+  const product = new ProductsModel(validProduct)
+  await product.save()
+}) // beforeAll is a Jest hook which will be ran before all tests, usually this is used to connect to db and to do some initial setup like adding some mock data to the db
 
 describe("Test APIs", () => {
   // it("Should test that GET /test endpoint returns 200 and a body containing a message", async () => {
@@ -19,6 +33,6 @@ describe("Test APIs", () => {
   //   expect(response.body.message).toEqual("TEST SUCCESSFULL")
   // })
   it("Should test that env vars are loaded correctly", () => {
-    expect(process.env.MONGO_URL).toBeDefined()
+    expect(process.env.MONGO_TEST_URL).toBeDefined()
   })
 })
